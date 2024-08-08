@@ -2,12 +2,15 @@ $(document).ready(() => {
   // variables
   const $body = $('body');
   $body.html(''); // Clears body
-  const $tweetSec = $('<section></section>');
+  const $title = $(`<h1 id="title">Twiddler</h1>`);
+  
+  const $tweetSec = $('<section class="tweet-feed"></section>');
   const $tweetBank = $('<div id="new-tweets"></div>');
   // button variables
   const $buttonSec = $('<section id="button-row"></section>');
   const $updateButton = $('<button id="update-tweet" class="button">Update Recent Tweets</button>');
   const $tweetButton = $('<button id="tweet-button" class="button">Post Tweet</button>');
+  $buttonSec.prepend($title);
   //attach buttons to button section
   $buttonSec.append($updateButton, $tweetButton);
   //input variables
@@ -22,9 +25,11 @@ $(document).ready(() => {
   function addNewTweet(tweets) {
     $tweetBank.html(''); // clears previous tweets
     tweets.forEach((tweet) => {
-      const $tweet = $('<div></div>');
+      const $tweet = $('<div class="tweet-box"></div>');
       const $userName = $(`<span class="username">@${tweet.user}</span>`);
-      const $message = $(`<span>${tweet.message}</span>`);
+      const messageText = tweet.message || '';
+      const messageHtml = messageText.replace(/(#\w+)/g, '<span class="hashtag">$1</span>'); // Convert hashtags to clickable elements
+      const $message = $(`<span>${messageHtml}</span>`);
       const createdAt = moment(tweet.created_at);
       const $timestamp = $(`<span class="timestamp"> (${createdAt.format("MMM Do YY")} - ${createdAt.fromNow()})</span>`);
 
@@ -41,22 +46,31 @@ $(document).ready(() => {
         }
       });
 
+      // event listener for hashtag clicks
+      $message.find('.hashtag').on('click', function () {
+        const hashtag = $(this).text(); // Get the clicked hashtag
+        console.log('Filtering tweets by hashtag:', hashtag);
+        const filteredTweets = tweets.filter(tweet => tweet.message.includes(hashtag));
+        $tweetBank.html(''); // clear previous tweets
+        addNewTweet(filteredTweets);
+        isFiltered = true;
+      });
+
       $tweet.append($userName).append(': ').append($message).append(' - ').append($timestamp);
       $tweetBank.prepend($tweet); // adds new tweet at the top
 
-      // keep tweet feed to only show 20 at a time and remove oldest tweets
+      // keep tweet feed to only show 10 at a time and remove oldest tweets
       const tweetCount = $tweetBank.children().length;
-      if (tweetCount > 20) {
+      if (tweetCount > 10) {
         $tweetBank.children().last().remove();
       }
     });
   }
-
-    // update button click listener
+    // update button event listener
     $updateButton.on('click', function () {
       console.log('Updating recent tweets...');
-      addNewTweet(streams.home); // Get latest tweets from database
-      isFiltered = false; // Clicking update button also resets isFiltered var
+      addNewTweet(streams.home); // get latest tweets from database
+      isFiltered = false; // clicking update button also resets isFiltered var
     });
 
     // tweet button event listener
@@ -94,4 +108,5 @@ $(document).ready(() => {
   // append tweet section to body
   $tweetSec.append($tweetBank);
   $body.append($tweetSec);
+  
 });
