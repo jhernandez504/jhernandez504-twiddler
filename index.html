@@ -1,15 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Twiddler!</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="data-generator.js"></script>
-    <script src="index.js"></script>
-  </head>
-  <body>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+  <script src="data-generator.js"></script>
+  <script src="index.js"></script>
+  <title>Twiddler!</title>
+  <style>
+    body {
+      margin: 0; /* Remove default margin */
+      padding: 20px; /* Add padding around the content */
+      font-family: Arial, sans-serif;
+    }
+    .title {
+      font-family: 'Segoe Print', serif; /* Ensure proper font family */
+      text-align: center;
+      margin-top: 20px;
+      font-size: 3em;
+      color: #333; /* Ensure text color is visible */
+    }
+    #new-tweets {
+      text-align: center;
+      margin: 20px auto; /* Center the tweet feed */
+      padding: 10px;
+      max-width: 1200px; /* Limit the width of the tweet feed */
+    }
+    #button-row {
+      text-align: center;
+      margin: 20px auto; /* Center button row */
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Twiddler</h1>
+  <section id="tweetSec">
+    <div id="new-tweets"></div>
+  </section>
+</body>
 </html>
