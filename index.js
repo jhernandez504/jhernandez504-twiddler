@@ -59,11 +59,7 @@ $(document).ready(() => {
       $tweet.append($userName).append(': ').append($message).append(' - ').append($timestamp);
       $tweetBank.prepend($tweet); // adds new tweet at the top
 
-      // keep tweet feed to only show 10 at a time and remove oldest tweets
-      const tweetCount = $tweetBank.children().length;
-      if (tweetCount > 10) {
-        $tweetBank.children().last().remove();
-      }
+
     });
   }
     // update button event listener
